@@ -14,7 +14,7 @@ namespace Chess {
         _chess_board = chess_board;
     }
 
-    bool ChessPiece::belong_to_same_player_(char piece1, char piece2) {
+    bool ChessPiece::_belong_to_same_player(char piece1, char piece2) {
         if (piece1 == ' ' || piece2 == ' ') {
             return false;
         }
@@ -25,7 +25,7 @@ namespace Chess {
         return false;
     }
 
-    bool ChessPiece::belong_to_different_players_(char piece1, char piece2) {
+    bool ChessPiece::_belong_to_different_players(char piece1, char piece2) {
         if (piece1 == ' ' || piece2 == ' ') {
             return false;
         }
@@ -36,42 +36,42 @@ namespace Chess {
         return true;
     }
 
-    void ChessPiece::compute_rook_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares) {
+    void ChessPiece::_compute_rook_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares) {
         int i = 0;
-        while (is_valid_coordinate_(_x + i, _y) && !belong_to_same_player_(_chess_board->piece_at(_x + i, _y), _piece)) {
+        while (is_valid_coordinate_(_x + i, _y) && !_belong_to_same_player(_chess_board->piece_at(_x + i, _y), _piece)) {
             attacked_squares.push_back(std::make_pair(_x + i, _y));
             i++;
-            if (belong_to_same_player_(_chess_board->piece_at(_x + i, _y), _piece)) {
+            if (_belong_to_same_player(_chess_board->piece_at(_x + i, _y), _piece)) {
                 break;
             }
         }
         i = 0;
-        while (is_valid_coordinate_(_x - i, _y) && !belong_to_same_player_(_chess_board->piece_at(_x - i, _y), _piece)) {
+        while (is_valid_coordinate_(_x - i, _y) && !_belong_to_same_player(_chess_board->piece_at(_x - i, _y), _piece)) {
             attacked_squares.push_back(std::make_pair(_x - i, _y));
             i++;
-            if (belong_to_same_player_(_chess_board->piece_at(_x - i, _y), _piece)) {
+            if (_belong_to_same_player(_chess_board->piece_at(_x - i, _y), _piece)) {
                 break;
             }
         }
         i = 0;
-        while (is_valid_coordinate_(_x, _y + i) && !belong_to_same_player_(_chess_board->piece_at(_x, _y + i), _piece)) {
+        while (is_valid_coordinate_(_x, _y + i) && !_belong_to_same_player(_chess_board->piece_at(_x, _y + i), _piece)) {
             attacked_squares.push_back(std::make_pair(_x, _y + i));
             i++;
-            if (belong_to_same_player_(_chess_board->piece_at(_x, _y + i), _piece)) {
+            if (_belong_to_same_player(_chess_board->piece_at(_x, _y + i), _piece)) {
                 break;
             }
         }
         i = 0;
-        while (is_valid_coordinate_(_x, _y - i) && !belong_to_same_player_(_chess_board->piece_at(_x, _y - i), _piece)) {
+        while (is_valid_coordinate_(_x, _y - i) && !_belong_to_same_player(_chess_board->piece_at(_x, _y - i), _piece)) {
             attacked_squares.push_back(std::make_pair(_x, _y - i));
             i++;
-            if (belong_to_same_player_(_chess_board->piece_at(_x, _y - i), _piece)) {
+            if (_belong_to_same_player(_chess_board->piece_at(_x, _y - i), _piece)) {
                 break;
             }
         }
     }
 
-    void ChessPiece::compute_knight_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares) {
+    void ChessPiece::_compute_knight_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares) {
         attacked_squares.push_back(std::make_pair(_x + 2, _y + 1));
         attacked_squares.push_back(std::make_pair(_x + 2, _y - 1));
         attacked_squares.push_back(std::make_pair(_x - 2, _y + 1));
@@ -82,7 +82,7 @@ namespace Chess {
         attacked_squares.push_back(std::make_pair(_x - 1, _y - 2));
     }
 
-    void ChessPiece::compute_king_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares) {
+    void ChessPiece::_compute_king_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares) {
         attacked_squares.push_back(std::make_pair(_x + 1, _y));
         attacked_squares.push_back(std::make_pair(_x - 1, _y));
         attacked_squares.push_back(std::make_pair(_x, _y + 1));
@@ -93,41 +93,41 @@ namespace Chess {
         attacked_squares.push_back(std::make_pair(_x - 1, _y - 1));
     }
 
-    void ChessPiece::compute_queen_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares) {
-        compute_rook_attacked_squares_(attacked_squares);
-        compute_bishop_attacked_squares_(attacked_squares);
+    void ChessPiece::_compute_queen_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares) {
+        _compute_rook_attacked_squares(attacked_squares);
+        _compute_bishop_attacked_squares(attacked_squares);
     }
 
-    void ChessPiece::compute_bishop_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares) {
+    void ChessPiece::_compute_bishop_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares) {
         int i = 0;
-        while (is_valid_coordinate_(_x + i, _y + i) && !belong_to_same_player_(_chess_board->piece_at(_x + i, _y + i), _piece)) {
+        while (is_valid_coordinate_(_x + i, _y + i) && !_belong_to_same_player(_chess_board->piece_at(_x + i, _y + i), _piece)) {
             attacked_squares.push_back(std::make_pair(_x + i, _y + i));
             i++;
-            if (belong_to_same_player_(_chess_board->piece_at(_x + i, _y + i), _piece)) {
+            if (_belong_to_same_player(_chess_board->piece_at(_x + i, _y + i), _piece)) {
                 break;
             }
         }
         i = 0;
-        while (is_valid_coordinate_(_x - i, _y + i) && !belong_to_same_player_(_chess_board->piece_at(_x - i, _y + i), _piece)) {
+        while (is_valid_coordinate_(_x - i, _y + i) && !_belong_to_same_player(_chess_board->piece_at(_x - i, _y + i), _piece)) {
             attacked_squares.push_back(std::make_pair(_x - i, _y + i));
             i++;
-            if (belong_to_same_player_(_chess_board->piece_at(_x - i, _y + i), _piece)) {
+            if (_belong_to_same_player(_chess_board->piece_at(_x - i, _y + i), _piece)) {
                 break;
             }
         }
         i = 0;
-        while (is_valid_coordinate_(_x + i, _y - i) && !belong_to_same_player_(_chess_board->piece_at(_x + i, _y - i), _piece)) {
+        while (is_valid_coordinate_(_x + i, _y - i) && !_belong_to_same_player(_chess_board->piece_at(_x + i, _y - i), _piece)) {
             attacked_squares.push_back(std::make_pair(_x + i, _y - i));
             i++;
-            if (belong_to_same_player_(_chess_board->piece_at(_x + i, _y - i), _piece)) {
+            if (_belong_to_same_player(_chess_board->piece_at(_x + i, _y - i), _piece)) {
                 break;
             }
         }
         i = 0;
-        while (is_valid_coordinate_(_x - i, _y - i) && !belong_to_same_player_(_chess_board->piece_at(_x - i, _y - i), _piece)) {
+        while (is_valid_coordinate_(_x - i, _y - i) && !_belong_to_same_player(_chess_board->piece_at(_x - i, _y - i), _piece)) {
             attacked_squares.push_back(std::make_pair(_x - i, _y - i));
             i++;
-            if (belong_to_same_player_(_chess_board->piece_at(_x - i, _y - i), _piece)) {
+            if (_belong_to_same_player(_chess_board->piece_at(_x - i, _y - i), _piece)) {
                 break;
             }
         }
@@ -139,23 +139,23 @@ namespace Chess {
         {
         case 'n':
         case 'N':
-            compute_knight_attacked_squares_(attacked_squares);
+            _compute_knight_attacked_squares(attacked_squares);
             break;
         case 'r':
         case 'R':
-            compute_rook_attacked_squares_(attacked_squares);
+            _compute_rook_attacked_squares(attacked_squares);
             break;
         case 'b':
         case 'B':
-            compute_bishop_attacked_squares_(attacked_squares);
+            _compute_bishop_attacked_squares(attacked_squares);
             break;
         case 'q':
         case 'Q':
-            compute_queen_attacked_squares_(attacked_squares);
+            _compute_queen_attacked_squares(attacked_squares);
             break;
         case 'k':
         case 'K':
-            compute_king_attacked_squares_(attacked_squares);
+            _compute_king_attacked_squares(attacked_squares);
             break;
         case 'p':
             attacked_squares.push_back(std::make_pair(_x + 1, _y + 1));
@@ -206,10 +206,10 @@ namespace Chess {
                 legal_moves.push_back(ChessMove(_x, _y, _x + delta_row, _y, *_chess_board, true, rook_char));
                 legal_moves.push_back(ChessMove(_x, _y, _x + delta_row, _y, *_chess_board, true, bishop_char));
                 legal_moves.push_back(ChessMove(_x, _y, _x + delta_row, _y, *_chess_board, true, knight_char));
-                if (belong_to_different_players_(_chess_board->piece_at(_x + delta_row, _y + 1), _piece)) {
+                if (_belong_to_different_players(_chess_board->piece_at(_x + delta_row, _y + 1), _piece)) {
                     legal_moves.push_back(ChessMove(_x, _y, _x + delta_row, _y + 1, *_chess_board));
                 }
-                if (belong_to_different_players_(_chess_board->piece_at(_x + delta_row, _y - 1), _piece)) {
+                if (_belong_to_different_players(_chess_board->piece_at(_x + delta_row, _y - 1), _piece)) {
                     legal_moves.push_back(ChessMove(_x, _y, _x + delta_row, _y - 1, *_chess_board));
                 }
             }
@@ -220,10 +220,10 @@ namespace Chess {
                         legal_moves.push_back(ChessMove(_x, _y, _x + 2*delta_row, _y, *_chess_board, false, ' ', true));
                     }
                 }
-                if (belong_to_different_players_(_chess_board->piece_at(_x + delta_row, _y + 1), _piece)) {
+                if (_belong_to_different_players(_chess_board->piece_at(_x + delta_row, _y + 1), _piece)) {
                     legal_moves.push_back(ChessMove(_x, _y, _x + delta_row, _y + 1, *_chess_board));
                 }
-                if (belong_to_different_players_(_chess_board->piece_at(_x + delta_row, _y - 1), _piece)) {
+                if (_belong_to_different_players(_chess_board->piece_at(_x + delta_row, _y - 1), _piece)) {
                     legal_moves.push_back(ChessMove(_x, _y, _x + delta_row, _y - 1, *_chess_board));
                 }
             }
@@ -243,7 +243,7 @@ namespace Chess {
         for (std::pair<int, int> square : attacked_squares) {
             if (_chess_board->piece_at(square.first, square.second) == ' ') {
                 legal_moves.push_back(ChessMove(_x, _y, square.first, square.second, *_chess_board));
-            } else if (!belong_to_same_player_(_chess_board->piece_at(square.first, square.second), _piece)) {
+            } else if (!_belong_to_same_player(_chess_board->piece_at(square.first, square.second), _piece)) {
                 legal_moves.push_back(ChessMove(_x, _y, square.first, square.second, *_chess_board));
             }
         }

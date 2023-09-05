@@ -30,14 +30,14 @@ namespace Chess {
             std::vector<std::pair<int, int>> compute_attacked_squares();
 
         private:
-            bool belong_to_same_player_(char piece1, char piece2);
-            bool belong_to_different_players_(char piece1, char piece2);
-            bool is_valid_coordinate_(int x, int y);
-            void compute_rook_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares);
-            void compute_knight_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares);
-            void compute_queen_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares);
-            void compute_bishop_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares);
-            void compute_king_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares);
+            static bool _belong_to_same_player(char piece1, char piece2);
+            static bool _belong_to_different_players(char piece1, char piece2);
+            static bool is_valid_coordinate_(int x, int y);
+            void _compute_rook_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
+            void _compute_knight_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
+            void _compute_queen_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
+            void _compute_bishop_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
+            void _compute_king_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
             char _piece;
             int _x;
             int _y;
