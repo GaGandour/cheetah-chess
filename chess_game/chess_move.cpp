@@ -16,25 +16,25 @@ namespace Chess {
             char promotion_piece = ' ', 
             bool enables_en_passant = false
         ) {
-        old_x_ = old_x;
-        old_y_ = old_y;
-        new_x_ = new_x;
-        new_y_ = new_y;
+        _old_x = old_x;
+        _old_y = old_y;
+        _new_x = new_x;
+        _new_y = new_y;
 
-        enables_en_passant_ = enables_en_passant;
-        is_promotion_ = is_promotion;
-        promotion_piece_ = promotion_piece;
-        is_capture_ = chess_board.piece_at(new_x, new_y) != ' ';
+        _enables_en_passant = enables_en_passant;
+        _is_promotion = is_promotion;
+        _promotion_piece = promotion_piece;
+        _is_capture = chess_board.piece_at(new_x, new_y) != ' ';
     }
 
     std::pair<int, int> ChessMove::get_old_position() {
-        return std::make_pair(old_x_, old_y_);
+        return std::make_pair(_old_x, _old_y);
     }
     std::pair<int, int> ChessMove::get_new_position() {
-        return std::make_pair(new_x_, new_y_);
+        return std::make_pair(_new_x, _new_y);
     }
 
     bool ChessMove::is_capture() {
-        return is_capture_;
+        return _is_capture;
     }
 }

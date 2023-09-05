@@ -38,10 +38,10 @@ namespace Chess {
             void compute_queen_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares);
             void compute_bishop_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares);
             void compute_king_attacked_squares_(std::vector<std::pair<int,int>> &attacked_squares);
-            char piece_;
-            int x_;
-            int y_;
-            ChessBoard *chess_board_;
+            char _piece;
+            int _x;
+            int _y;
+            ChessBoard *_chess_board;
     };
 
     class ChessMove {
@@ -76,14 +76,14 @@ namespace Chess {
             bool is_capture();
 
         private:
-            int old_x_;
-            int old_y_;
-            int new_x_;
-            int new_y_;
-            bool is_capture_;
-            bool is_promotion_;
-            char promotion_piece_;
-            bool enables_en_passant_;
+            int _old_x;
+            int _old_y;
+            int _new_x;
+            int _new_y;
+            bool _is_capture;
+            bool _is_promotion;
+            char _promotion_piece;
+            bool _enables_en_passant;
     };
     
     class ChessBoard {
@@ -102,16 +102,16 @@ namespace Chess {
 
             
         private:
-            bool can_white_big_castle_;
-            bool can_white_small_castle_;
-            bool can_black_big_castle_;
-            bool can_black_small_castle_;
-            char chess_board_[8][8];
-            bool white_turn_;
-            int num_moves_;
-            int num_moves_since_capture_;
-            long long board_hash_;
-            void reset_board_();
+            bool _can_white_big_castle;
+            bool _can_white_small_castle;
+            bool _can_black_big_castle;
+            bool _can_black_small_castle;
+            char _chess_board[8][8];
+            bool _white_turn;
+            int _num_moves;
+            int _num_moves_since_capture;
+            long long _board_hash;
+            void _reset_board();
     };
 
     class ChessGame {
@@ -129,8 +129,8 @@ namespace Chess {
             long long get_board_hash();
             
         private:
-            std::stack<ChessBoard> chess_board_stack_;
-            bool white_turn_;
+            std::stack<ChessBoard> _chess_board_stack;
+            bool _white_turn;
     };
 }
 
