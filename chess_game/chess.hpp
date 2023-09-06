@@ -35,9 +35,9 @@ namespace Chess {
             static bool _is_valid_coordinate(int x, int y);
             static void _push_coordinates_to_square_vector(std::vector<std::pair<int,int>> &attacked_squares, int x, int y);
             void _compute_rook_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
-            void _compute_knight_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
-            void _compute_queen_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
             void _compute_bishop_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
+            void _compute_queen_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
+            void _compute_knight_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
             void _compute_king_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
             char _piece;
             int _x;
