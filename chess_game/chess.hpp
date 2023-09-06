@@ -32,7 +32,8 @@ namespace Chess {
         private:
             static bool _belong_to_same_player(char piece1, char piece2);
             static bool _belong_to_different_players(char piece1, char piece2);
-            static bool is_valid_coordinate_(int x, int y);
+            static bool _is_valid_coordinate(int x, int y);
+            static void _push_coordinates_to_square_vector(std::vector<std::pair<int,int>> &attacked_squares, int x, int y);
             void _compute_rook_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
             void _compute_knight_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
             void _compute_queen_attacked_squares(std::vector<std::pair<int,int>> &attacked_squares);
@@ -96,6 +97,7 @@ namespace Chess {
             void print_board();
             bool is_white_turn();
             char piece_at(int x, int y);
+            bool is_occupied(int x, int y);
             bool is_check();
             bool is_checkmate();
             bool is_stalemate();
