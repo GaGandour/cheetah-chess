@@ -181,27 +181,19 @@ namespace Chess {
             _compute_king_attacked_squares(attacked_squares);
             break;
         case 'p':
-            attacked_squares.push_back(std::make_pair(_x + 1, _y + 1));
-            attacked_squares.push_back(std::make_pair(_x + 1, _y - 1));
+            _push_coordinates_to_square_vector(attacked_squares, _x + 1, _y + 1);
+            _push_coordinates_to_square_vector(attacked_squares, _x + 1, _y - 1);
             break;
         case 'P':
-            attacked_squares.push_back(std::make_pair(_x - 1, _y + 1));
-            attacked_squares.push_back(std::make_pair(_x - 1, _y - 1));
+            _push_coordinates_to_square_vector(attacked_squares, _x - 1, _y + 1);
+            _push_coordinates_to_square_vector(attacked_squares, _x - 1, _y - 1);
             break;
         default:
             throw std::invalid_argument("Invalid piece.");
             break;
         }
-        std::vector<std::pair<int, int>> valid_attacked_squares;
-        std::copy_if(
-            attacked_squares.begin(),
-            attacked_squares.end(),
-            std::back_inserter(valid_attacked_squares),
-            [this](std::pair<int, int> square) { 
-                return _is_valid_coordinate(square.first, square.second);
-            }
-        );
-        return valid_attacked_squares;
+        
+        return attacked_squares;
     }
 
     bool ChessPiece::_is_valid_coordinate(int x, int y) {
