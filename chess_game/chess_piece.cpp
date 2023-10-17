@@ -43,7 +43,7 @@ void King::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *c
         if (!is_valid_coordinate(new_x, new_y))
             continue;
 
-        if (!belong_to_same_player(chess_board->piece_at(new_x, new_y), piece_code))
+        if (!belong_to_same_player(chess_board->piece_at(new_x, new_y), _piece_code))
             attacked_squares.push_back(std::make_pair(new_x, new_y));
     }
 }
@@ -96,28 +96,28 @@ void Queen::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *
 
 void Rook::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) {
     int i = 0, x = position.first, y = position.second;
-    while (is_valid_coordinate(x + i, y) && !belong_to_same_player(chess_board->piece_at(x + i, y), piece_code)) {
+    while (is_valid_coordinate(x + i, y) && !belong_to_same_player(chess_board->piece_at(x + i, y), _piece_code)) {
         attacked_squares.push_back(std::make_pair(x + i, y));
         if (chess_board->is_occupied(x + i, y))
             break;
         ++i;
     }
     i = 0;
-    while (is_valid_coordinate(x - i, y) && !belong_to_same_player(chess_board->piece_at(x - i, y), piece_code)) {
+    while (is_valid_coordinate(x - i, y) && !belong_to_same_player(chess_board->piece_at(x - i, y), _piece_code)) {
         attacked_squares.push_back(std::make_pair(x - i, y));
         if (chess_board->is_occupied(x - i, y))
             break;
         ++i;
     }
     i = 0;
-    while (is_valid_coordinate(x, y + i) && !belong_to_same_player(chess_board->piece_at(x, y + i), piece_code)) {
+    while (is_valid_coordinate(x, y + i) && !belong_to_same_player(chess_board->piece_at(x, y + i), _piece_code)) {
         attacked_squares.push_back(std::make_pair(x, y + i));
         if (chess_board->is_occupied(x, y + i))
             break;
         ++i;
     }
     i = 0;
-    while (is_valid_coordinate(x, y - i) && !belong_to_same_player(chess_board->piece_at(x, y - i), piece_code)) {
+    while (is_valid_coordinate(x, y - i) && !belong_to_same_player(chess_board->piece_at(x, y - i), _piece_code)) {
         attacked_squares.push_back(std::make_pair(x, y - i));
         if (chess_board->is_occupied(x, y - i))
             break;
@@ -128,28 +128,28 @@ void Rook::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *c
 
 void Bishop::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) {
     int i = 0, x = position.first, y = position.second;
-    while (is_valid_coordinate(x + i, y + i) && !belong_to_same_player(chess_board->piece_at(x + i, y + i), piece_code)) {
+    while (is_valid_coordinate(x + i, y + i) && !belong_to_same_player(chess_board->piece_at(x + i, y + i), _piece_code)) {
         attacked_squares.push_back(std::make_pair(x + i, y + i));
         if (chess_board->is_occupied(x + i, y + i))
             break;
         ++i;
     }
     i = 0;
-    while (is_valid_coordinate(x - i, y + i) && !belong_to_same_player(chess_board->piece_at(x - i, y + i), piece_code)) {
+    while (is_valid_coordinate(x - i, y + i) && !belong_to_same_player(chess_board->piece_at(x - i, y + i), _piece_code)) {
         attacked_squares.push_back(std::make_pair(x - i, y + i));
         if (chess_board->is_occupied(x - i, y + i))
             break;
         ++i;
     }
     i = 0;
-    while (is_valid_coordinate(x + i, y - i) && !belong_to_same_player(chess_board->piece_at(x + i, y - i), piece_code)) {
+    while (is_valid_coordinate(x + i, y - i) && !belong_to_same_player(chess_board->piece_at(x + i, y - i), _piece_code)) {
         attacked_squares.push_back(std::make_pair(x + i, y - i));
         if (chess_board->is_occupied(x + i, y - i))
             break;
         ++i;
     }
     i = 0;
-    while (is_valid_coordinate(x - i, y - i) && !belong_to_same_player(chess_board->piece_at(x - i, y - i), piece_code)) {
+    while (is_valid_coordinate(x - i, y - i) && !belong_to_same_player(chess_board->piece_at(x - i, y - i), _piece_code)) {
         attacked_squares.push_back(std::make_pair(x - i, y - i));
         if (chess_board->is_occupied(x - i, y - i))
             break;
@@ -177,13 +177,23 @@ void Knight::compute_attacked_squares(std::pair<int, int> &position, ChessBoard 
         if (!is_valid_coordinate(new_x, new_y))
             continue;
 
-        if (!belong_to_same_player(chess_board->piece_at(new_x, new_y), piece_code))
+        if (!belong_to_same_player(chess_board->piece_at(new_x, new_y), _piece_code))
             attacked_squares.push_back(std::make_pair(new_x, new_y));
     }
 }
 
 void Pawn::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) {
-    //TODO: DO
+    int new_x, y;
+    y = position.second;
+
+    int row_offset = is_white() ? -1 : 1;
+    new_x = position.first + row_offset;
+
+    if (is_valid_coordinate(new_x, y - 1))
+        attacked_squares.push_back(std::make_pair(new_x, y - 1));
+    if (is_valid_coordinate(new_x, y + 1))
+        attacked_squares.push_back(std::make_pair(new_x, y + 1));
+
 }
 
 std::vector<ChessMove> Pawn::compute_possible_moves_disregarding_check(std::pair<int, int> &position, ChessBoard *chess_board) {

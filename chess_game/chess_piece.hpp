@@ -5,13 +5,38 @@
 #include <vector>
 #include <stack>
 
-// is upper
+// is upper, lower
 #include <cstring>
 #include <cctype>
 
 #include "chess_board.hpp"
 #include "chess_move.hpp"
 
+bool piece_is_white(char piece) {
+    return (bool)isupper(piece);
+}
+
+bool piece_is_black(char piece) {
+    return (bool)islower(piece);
+}
+
+bool belong_to_different_players(char piece1, char piece2) {
+    if (piece1 == ' ' || piece2 == ' ') {
+        return false;
+    }
+    bool piece1_is_white = piece_is_white(piece1);
+    bool piece2_is_white = piece_is_white(piece2);
+    return (piece1_is_white ^ piece2_is_white);
+}
+
+bool belong_to_same_player(char piece1, char piece2) {
+    if (piece1 == ' ' || piece2 == ' ') {
+        return false;
+    }
+    bool piece1_is_white = piece_is_white(piece1);
+    bool piece2_is_white = piece_is_white(piece2);
+    return !(piece1_is_white ^ piece2_is_white);
+}
 
 class ChessPiece {
     public:
@@ -19,10 +44,14 @@ class ChessPiece {
         virtual ~ChessPiece() {};
         virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) = 0;
         virtual std::vector<ChessMove> compute_possible_moves_disregarding_check(std::pair<int, int> &position, ChessBoard *chess_board);
+        
+        bool is_white() {
+            return _is_white;
+        }
 
     protected:
-        bool is_white;
-        char piece_code;
+        bool _is_white;
+        char _piece_code;
 };
 
 class King : public ChessPiece {
@@ -62,48 +91,48 @@ class Pawn : public ChessPiece {
 class WKing : public King {
     public:
         WKing() {
-            is_white = true;
-            piece_code = 'K';
+            _is_white = true;
+            _piece_code = WKING;
         };
 };
 
 class WQueen : public Queen {
     public:
         WQueen() {
-            is_white = true;
-            piece_code = 'Q';
+            _is_white = true;
+            _piece_code = WQUEEN;
         };
 };
 
 class WBishop : public Bishop {
     public:
         WBishop() {
-            is_white = true;
-            piece_code = 'B';
+            _is_white = true;
+            _piece_code = WBISHOP;
         };
 };
 
 class WKnight : public Knight {
     public:
         WKnight() {
-            is_white = true;
-            piece_code = 'N';
+            _is_white = true;
+            _piece_code = WKNIGHT;
         };
 };
 
 class WRook : public Rook {
     public:
         WRook() {
-            is_white = true;
-            piece_code = 'R';
+            _is_white = true;
+            _piece_code = WROOK;
         };
 };
 
 class WPawn : public Pawn {
     public:
         WPawn() {
-            is_white = true;
-            piece_code = 'P';
+            _is_white = true;
+            _piece_code = WPAWN;
         };
 };
 
@@ -111,99 +140,75 @@ class WPawn : public Pawn {
 class BKing : public King {
     public:
         BKing() {
-            is_white = false;
-            piece_code = 'k';
+            _is_white = false;
+            _piece_code = BKING;
         };
 };
 
 class BQueen : public Queen {
     public:
         BQueen() {
-            is_white = false;
-            piece_code = 'q';
+            _is_white = false;
+            _piece_code = BQUEEN;
         };
 };
 
 class BBishop : public Bishop {
     public:
         BBishop() {
-            is_white = false;
-            piece_code = 'b';
+            _is_white = false;
+            _piece_code = BBISHOP;
         };
 };
 
 class BKnight : public Knight {
     public:
         BKnight() {
-            is_white = false;
-            piece_code = 'n';
+            _is_white = false;
+            _piece_code = BKNIGHT;
         };
 };
 
 class BRook : public Rook {
     public:
         BRook() {
-            is_white = false;
-            piece_code = 'r';
+            _is_white = false;
+            _piece_code = BROOK;
         };
 };
 
 class BPawn : public Pawn {
     public:
         BPawn() {
-            is_white = false;
-            piece_code = 'p';
+            _is_white = false;
+            _piece_code = BPAWN;
         };
 };
 
-bool is_white(char piece) {
-    return (bool)isupper(piece);
-}
 
-bool is_black(char piece) {
-    return (bool)islower(piece);
-}
-
-bool belong_to_different_players(char piece1, char piece2) {
-    if (piece1 == ' ' || piece2 == ' ') {
-        return false;
-    }
-    bool piece1_is_white = is_white(piece1);
-    bool piece2_is_white = is_white(piece2);
-    return (piece1_is_white ^ piece2_is_white);
-}
-
-bool belong_to_same_player(char piece1, char piece2) {
-    if (piece1 == ' ' || piece2 == ' ') {
-        return false;
-    }
-    bool piece1_is_white = is_white(piece1);
-    bool piece2_is_white = is_white(piece2);
-    return !(piece1_is_white ^ piece2_is_white);
-}
 
 ChessPiece *generate_piece_from_code(char piece_code) {
     switch (piece_code)
     {
-    case 'k':
+    case BKING:
         return new BKing();
-    case 'K':
+    case WKING:
         return new WKing();
-    case 'q':
+    case BQUEEN:
         return new BQueen();
-    case 'Q':
+    case WQUEEN:
         return new WQueen();
-    case 'b':
+    case BBISHOP:
         return new BBishop();
-    case 'B':
+    case WBISHOP:
         return new WBishop();
-    case 'n':
+    case BKNIGHT:
         return new BKnight();
-    case 'N':
+    case WKNIGHT:
         return new WKnight();
-    case 'r':
+    case BROOK:
         return new BRook();
-    case 'R':
+    case WROOK:
         return new WRook();
     default:
         return NULL;

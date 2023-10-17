@@ -17,6 +17,21 @@ static const char INITIAL_CHESS_BOARD[8][8] = {
     {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
 };
 
+static const char WKING = 'K';
+static const char WQUEEN = 'Q';
+static const char WROOK = 'R';
+static const char WBISHOP = 'B';
+static const char WKNIGHT = 'N';
+static const char WPAWN = 'P';
+
+static const char BKING = 'k';
+static const char BQUEEN = 'q';
+static const char BROOK = 'r';
+static const char BBISHOP = 'b';
+static const char BKNIGHT = 'n';
+static const char BPAWN = 'p';
+
+
 static const int WROW = 7;
 static const int BROW = 0;
 
