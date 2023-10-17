@@ -1,2 +1,2 @@
 test:
-	g++ test.cpp chess_game/*.cpp -o test && ./test && rm test
+	g++ test.cpp chess_game/*.cpp -o chess_game
