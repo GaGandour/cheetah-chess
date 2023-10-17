@@ -198,4 +198,37 @@ void Pawn::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *c
 
 std::vector<ChessMove> Pawn::compute_possible_moves_disregarding_check(std::pair<int, int> &position, ChessBoard *chess_board) {
     //TODO: DO
+    int row_offset = is_white() ? -1 : 1;
+    int new_x = position.first + row_offset;
+
+    std::vector<ChessMove> moves = {};
+
+    if (is_valid_coordinate(new_x, position.second) && !chess_board->is_occupied(new_x, position.second)) {
+        if (new_x == WROW || new_x == BROW) {
+            // if is a promotion
+            moves.push_back(
+                ChessMove(
+                    position.first, 
+                    position.second, 
+                    new_x, 
+                    position.second,
+                    false,
+                    false,
+                    true,
+                    'Q'
+                )
+            );
+        } else {
+
+            moves.push_back(
+                ChessMove(
+                    position.first, 
+                    position.second, 
+                    new_x, 
+                    position.second
+                )
+            );
+        }
+    }
+
 }
