@@ -23,7 +23,7 @@ std::vector<ChessMove> ChessPiece::compute_possible_moves_disregarding_check(std
     }
 }
 
-void King::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares) {
+void King::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) {
     static const std::vector<std::pair<int, int>> king_movements_offsets = {
         { 0, -1},
         { 0,  1},
@@ -64,11 +64,27 @@ std::vector<ChessMove> King::compute_possible_moves_disregarding_check(std::pair
         );
     }
 
-    // TODO: code castling
+    _compute_and_push_castle_moves(position, chess_board, moves);
+}
+
+void King::_compute_and_push_castle_moves(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<ChessMove> moves) {
+    //TODO: everything!
+    if (chess_board->is_white_turn()) {
+        //TODO: white
+        if (chess_board->can_white_big_castle()) {
+            // if ()
+            // moves.push_back
+        }
+        if (chess_board->can_white_small_castle()) {
+
+        }
+    } else {
+        //TODO: black
+    }
 }
 
 
-void Queen::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares) {
+void Queen::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) {
     ChessPiece* aux_piece = new Bishop();
     aux_piece->compute_attacked_squares(position, chess_board, attacked_squares);
     delete aux_piece;
@@ -78,7 +94,7 @@ void Queen::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *
     delete aux_piece;
 }
 
-void Rook::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares) {
+void Rook::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) {
     int i = 0, x = position.first, y = position.second;
     while (is_valid_coordinate(x + i, y) && !belong_to_same_player(chess_board->piece_at(x + i, y), piece_code)) {
         attacked_squares.push_back(std::make_pair(x + i, y));
@@ -110,7 +126,7 @@ void Rook::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *c
 }
 
 
-void Bishop::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares) {
+void Bishop::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) {
     int i = 0, x = position.first, y = position.second;
     while (is_valid_coordinate(x + i, y + i) && !belong_to_same_player(chess_board->piece_at(x + i, y + i), piece_code)) {
         attacked_squares.push_back(std::make_pair(x + i, y + i));
@@ -141,7 +157,7 @@ void Bishop::compute_attacked_squares(std::pair<int, int> &position, ChessBoard 
     }
 }
 
-void Knight::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares) {
+void Knight::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) {
     static const std::vector<std::pair<int, int>> knight_movements_offsets = {
         { 2,  1},
         { 2, -1},
@@ -166,7 +182,7 @@ void Knight::compute_attacked_squares(std::pair<int, int> &position, ChessBoard 
     }
 }
 
-void Pawn::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares) {
+void Pawn::compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) {
     //TODO: DO
 }
 

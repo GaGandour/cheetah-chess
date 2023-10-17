@@ -17,14 +17,24 @@ static const char INITIAL_CHESS_BOARD[8][8] = {
     {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
 };
 
+static const int WROW = 7;
+static const int BROW = 0;
+
 static const std::pair<int, int> WKING_SQUARE = std::make_pair(7, 4);
 static const std::pair<int, int> BKING_SQUARE = std::make_pair(0, 4);
 
 static const std::pair<int, int> LEFT_WROOK_SQUARE = std::make_pair(7, 0);
 static const std::pair<int, int> LEFT_BROOK_SQUARE = std::make_pair(0, 0);
 
+static const std::pair<int, int> LEFT_WROOK_SQUARE_AFTER_CASTLE = std::make_pair(7, 3);
+static const std::pair<int, int> LEFT_BROOK_SQUARE_AFTER_CASTLE = std::make_pair(0, 3);
+
+
 static const std::pair<int, int> RIGHT_WROOK_SQUARE = std::make_pair(7, 7);
 static const std::pair<int, int> RIGHT_BROOK_SQUARE = std::make_pair(0, 7);
+
+static const std::pair<int, int> RIGHT_WROOK_SQUARE_AFTER_CASTLE = std::make_pair(7, 5);
+static const std::pair<int, int> RIGHT_BROOK_SQUARE_AFTER_CASTLE = std::make_pair(0, 5);
 
 class ChessBoard {
     public:
@@ -38,6 +48,11 @@ class ChessBoard {
         
         int get_num_moves();
         int get_num_moves_since_last_capture();
+
+        bool can_white_big_castle();
+        bool can_white_small_castle();
+        bool can_black_big_castle();
+        bool can_black_small_castle();
 
         
     private:

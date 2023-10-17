@@ -17,7 +17,7 @@ class ChessPiece {
     public:
         ChessPiece() {};
         virtual ~ChessPiece() {};
-        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares) = 0;
+        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares) = 0;
         virtual std::vector<ChessMove> compute_possible_moves_disregarding_check(std::pair<int, int> &position, ChessBoard *chess_board);
 
     protected:
@@ -27,33 +27,35 @@ class ChessPiece {
 
 class King : public ChessPiece {
     public:
-        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares);
+        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares);
         virtual std::vector<ChessMove> compute_possible_moves_disregarding_check(std::pair<int, int> &position, ChessBoard *chess_board);
+    protected:
+        virtual void _compute_and_push_castle_moves(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<ChessMove> moves);
 };
 
 class Queen : public ChessPiece {
     public:
-        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares);
+        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares);
 };
 
 class Bishop : public ChessPiece {
     public:
-        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares);
+        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares);
 };
 
 class Knight : public ChessPiece {
     public:
-        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares);
+        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares);
 };
 
 class Rook : public ChessPiece {
     public:
-        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares);
+        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares);
 };
 
 class Pawn : public ChessPiece {
     public:
-        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> attacked_squares);
+        virtual void compute_attacked_squares(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<std::pair<int, int>> &attacked_squares);
         virtual std::vector<ChessMove> compute_possible_moves_disregarding_check(std::pair<int, int> &position, ChessBoard *chess_board);
 };
 
@@ -154,12 +156,20 @@ class BPawn : public Pawn {
         };
 };
 
+bool is_white(char piece) {
+    return (bool)isupper(piece);
+}
+
+bool is_black(char piece) {
+    return (bool)islower(piece);
+}
+
 bool belong_to_different_players(char piece1, char piece2) {
     if (piece1 == ' ' || piece2 == ' ') {
         return false;
     }
-    bool piece1_is_white = (bool)isupper(piece1);
-    bool piece2_is_white = (bool)isupper(piece2);
+    bool piece1_is_white = is_white(piece1);
+    bool piece2_is_white = is_white(piece2);
     return (piece1_is_white ^ piece2_is_white);
 }
 
@@ -167,8 +177,8 @@ bool belong_to_same_player(char piece1, char piece2) {
     if (piece1 == ' ' || piece2 == ' ') {
         return false;
     }
-    bool piece1_is_white = (bool)isupper(piece1);
-    bool piece2_is_white = (bool)isupper(piece2);
+    bool piece1_is_white = is_white(piece1);
+    bool piece2_is_white = is_white(piece2);
     return !(piece1_is_white ^ piece2_is_white);
 }
 

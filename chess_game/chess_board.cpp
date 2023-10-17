@@ -106,3 +106,24 @@ bool ChessBoard::is_white_turn() {
 long long ChessBoard::get_board_hash() {
     return _board_hash;
 }
+
+int ChessBoard::get_num_moves() {
+    return _num_moves;
+}
+
+int ChessBoard::get_num_moves_since_last_capture() {
+    return _num_moves_since_last_capture;
+}
+
+bool ChessBoard::can_white_big_castle() {
+    return _can_white_big_castle;
+}
+bool ChessBoard::can_white_small_castle() {
+    return _can_white_small_castle;
+}
+bool ChessBoard::can_black_big_castle() {
+    return _can_black_big_castle;
+}
+bool ChessBoard::can_black_small_castle() {
+    return _can_black_small_castle;
+};

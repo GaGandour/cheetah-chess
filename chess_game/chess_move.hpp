@@ -14,6 +14,8 @@ class ChessMove {
             int old_y, 
             int new_x, 
             int new_y,
+            bool is_capture = false,
+            bool is_castle = false,
             bool is_promotion = false, 
             char promotion_piece = ' ', 
             bool enables_en_passant = false
@@ -50,6 +52,11 @@ class ChessMove {
         bool enables_en_passant();
 
         /**
+         * Gets whether the move is a castle.
+        */
+        bool is_castle();
+
+        /**
          * Gets the hash of the move.
          */
         long long get_move_hash();
@@ -61,6 +68,7 @@ class ChessMove {
         int _new_y;
         bool _is_capture;
         bool _is_promotion;
+        bool _is_castle;
         char _promotion_piece;
         bool _enables_en_passant;
         long long _move_hash;
