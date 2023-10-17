@@ -35,6 +35,9 @@ static const char BPAWN = 'p';
 static const int WROW = 7;
 static const int BROW = 0;
 
+static const int WPAWNROW = 6;
+static const int BPAWNROW = 1;
+
 static const std::pair<int, int> WKING_SQUARE = std::make_pair(7, 4);
 static const std::pair<int, int> BKING_SQUARE = std::make_pair(0, 4);
 

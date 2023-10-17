@@ -200,35 +200,118 @@ std::vector<ChessMove> Pawn::compute_possible_moves_disregarding_check(std::pair
     //TODO: DO
     int row_offset = is_white() ? -1 : 1;
     int new_x = position.first + row_offset;
+    int new_y = position.second;
 
     std::vector<ChessMove> moves = {};
-
-    if (is_valid_coordinate(new_x, position.second) && !chess_board->is_occupied(new_x, position.second)) {
+    
+    std::vector<char> possible_promotions;
+    if (is_white()) {
+        possible_promotions = {
+            WQUEEN, WBISHOP, WKNIGHT, WROOK
+        };
+    } else {
+        possible_promotions = {
+            BQUEEN, BBISHOP, BKNIGHT, BROOK
+        };  
+    } 
+    
+    // first, check if can move one square forward
+    if (is_valid_coordinate(new_x, new_y) && !chess_board->is_occupied(new_x, new_y)) {
         if (new_x == WROW || new_x == BROW) {
             // if is a promotion
-            moves.push_back(
-                ChessMove(
-                    position.first, 
-                    position.second, 
-                    new_x, 
-                    position.second,
-                    false,
-                    false,
-                    true,
-                    'Q'
-                )
-            );
+            for (char promotion_piece : possible_promotions) {
+                moves.push_back(
+                    ChessMove(
+                        position.first, 
+                        position.second, 
+                        new_x, 
+                        new_y,
+                        false,
+                        false,
+                        true,
+                        promotion_piece
+                    )
+                );
+            }
         } else {
-
             moves.push_back(
                 ChessMove(
                     position.first, 
                     position.second, 
                     new_x, 
-                    position.second
+                    new_y
                 )
             );
         }
     }
 
+    // handle double jump
+    if (position.first == WPAWNROW || position.first == BPAWNROW) {
+        new_x = position.first + 2 * row_offset;
+        new_y = position.second;
+        if (!is_valid_coordinate(new_x, new_y)) {
+
+        } else if (chess_board->is_occupied(new_x, new_y)) {
+
+        } else if (chess_board->is_occupied(new_x - row_offset, new_y)) {
+
+        }
+        else {
+            moves.push_back(
+                ChessMove(
+                    position.first, 
+                    position.second, 
+                    new_x, 
+                    new_y,
+                    false,
+                    false,
+                    false,
+                    ' ',
+                    true
+                )
+            );
+        }
+    }
+
+    // handle captures
+    static const std::vector<int> column_offsets = {-1, 1};
+    for (int delta_y : column_offsets) {
+        new_x = position.first + row_offset;
+        new_y = position.second + delta_y;
+        if (
+            is_valid_coordinate(new_x, new_y) && 
+            chess_board->is_occupied(new_x, new_y) && 
+            !belong_to_same_player(chess_board->piece_at(new_x, new_y), _piece_code)
+        ) {
+            if (new_x == WROW || new_x == BROW) {
+                // if is a promotion
+                for (char promotion_piece : possible_promotions) {
+                    moves.push_back(
+                        ChessMove(
+                            position.first, 
+                            position.second, 
+                            new_x, 
+                            new_y,
+                            true,
+                            false,
+                            true,
+                            promotion_piece
+                        )
+                    );
+                }
+            } else {
+                moves.push_back(
+                    ChessMove(
+                        position.first, 
+                        position.second, 
+                        new_x, 
+                        new_y,
+                        true
+                    )
+                );
+            }
+        }
+    }
+
+    //TODO: handle en passant
 }

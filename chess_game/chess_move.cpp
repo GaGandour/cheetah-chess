@@ -4,7 +4,6 @@
 #include <vector>
 
 
-
 // Implementations of ChessMove methods.
 ChessMove::ChessMove(
         int old_x,
