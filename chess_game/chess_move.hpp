@@ -3,6 +3,33 @@
 
 #include <utility>
 
+enum MoveType {
+    NORMAL,
+    NORMAL_CAPTURE,
+    EN_PASSANT,
+    SMALL_CASTLE,
+    BIG_CASTLE
+};
+
+
+typedef struct ChessMoveParams {
+    int old_x;
+    int old_y;
+    int new_x;
+    int new_y;
+    bool is_white_moving;
+
+    MoveType move_type = MoveType::NORMAL;
+
+    bool is_promotion = false;
+    char promotion_piece = ' ';
+    
+    char moving_piece = ' ';
+    char captured_piece = ' ';
+    
+    bool enables_en_passant = false;
+} ChessMoveParams;
+
 
 class ChessMove {
     public:
@@ -10,15 +37,7 @@ class ChessMove {
          * Constructor for ChessMove.
          */
         explicit ChessMove(
-            int old_x, 
-            int old_y, 
-            int new_x, 
-            int new_y,
-            bool is_capture = false,
-            bool is_castle = false,
-            bool is_promotion = false, 
-            char promotion_piece = ' ', 
-            bool enables_en_passant = false
+            ChessMoveParams params
         );
 
         /**
@@ -32,9 +51,25 @@ class ChessMove {
         std::pair<int, int> get_new_position();
 
         /**
+         * Gets the type of the move.
+         */
+        MoveType get_move_type();
+
+        /**
          * Gets whether the move is a capture.
          */
         bool is_capture();
+
+
+        /**
+         * Gets the piece that is moving.
+         */
+        char get_moving_piece();
+
+        /**
+         * Gets the piece that is captured.
+         */
+        char get_captured_piece();
 
         /**
          * Gets whether the move is a promotion.
@@ -66,10 +101,15 @@ class ChessMove {
         int _old_y;
         int _new_x;
         int _new_y;
-        bool _is_capture;
+
+        MoveType _move_type;
+        
         bool _is_promotion;
-        bool _is_castle;
         char _promotion_piece;
+        
+        char _moving_piece;
+        char _captured_piece;
+
         bool _enables_en_passant;
         long long _move_hash;
 };

@@ -2,57 +2,11 @@
 #define _CHESS_BOARD_HPP_
 
 #include <utility>
+#include <unordered_map>
 
 #include "chess_move.hpp"
+#include "chess_globals.hpp"
 
-
-static const char INITIAL_CHESS_BOARD[8][8] = {
-    {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
-    {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
-    {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-    {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-    {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-    {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-    {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
-    {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
-};
-
-static const char WKING = 'K';
-static const char WQUEEN = 'Q';
-static const char WROOK = 'R';
-static const char WBISHOP = 'B';
-static const char WKNIGHT = 'N';
-static const char WPAWN = 'P';
-
-static const char BKING = 'k';
-static const char BQUEEN = 'q';
-static const char BROOK = 'r';
-static const char BBISHOP = 'b';
-static const char BKNIGHT = 'n';
-static const char BPAWN = 'p';
-
-
-static const int WROW = 7;
-static const int BROW = 0;
-
-static const int WPAWNROW = 6;
-static const int BPAWNROW = 1;
-
-static const std::pair<int, int> WKING_SQUARE = std::make_pair(7, 4);
-static const std::pair<int, int> BKING_SQUARE = std::make_pair(0, 4);
-
-static const std::pair<int, int> LEFT_WROOK_SQUARE = std::make_pair(7, 0);
-static const std::pair<int, int> LEFT_BROOK_SQUARE = std::make_pair(0, 0);
-
-static const std::pair<int, int> LEFT_WROOK_SQUARE_AFTER_CASTLE = std::make_pair(7, 3);
-static const std::pair<int, int> LEFT_BROOK_SQUARE_AFTER_CASTLE = std::make_pair(0, 3);
-
-
-static const std::pair<int, int> RIGHT_WROOK_SQUARE = std::make_pair(7, 7);
-static const std::pair<int, int> RIGHT_BROOK_SQUARE = std::make_pair(0, 7);
-
-static const std::pair<int, int> RIGHT_WROOK_SQUARE_AFTER_CASTLE = std::make_pair(7, 5);
-static const std::pair<int, int> RIGHT_BROOK_SQUARE_AFTER_CASTLE = std::make_pair(0, 5);
 
 class ChessBoard {
     public:
@@ -61,8 +15,13 @@ class ChessBoard {
         long long get_board_hash();
         void print_board();
         bool is_white_turn();
+        bool is_black_turn();
+        
         char piece_at(int x, int y);
+        char piece_at(std::pair<int, int> &position);
+
         bool is_occupied(int x, int y);
+        bool is_occupied(std::pair<int, int> &position);
         
         int get_num_moves();
         int get_num_moves_since_last_capture();
@@ -72,13 +31,24 @@ class ChessBoard {
         bool can_black_big_castle();
         bool can_black_small_castle();
 
-        
+        bool is_en_passant_enabled();
+        std::pair<int, int> get_en_passant_square();
+
     private:
         void _reset_board();
+
+        void _set_piece_at(int x, int y, char piece);
+        void _set_piece_at(std::pair<int, int> &position, char piece);
+
+        /**
+         * If the move involves a king or a rook, revoke the relevant castle rights.
+         */
         void _check_for_castle_rights(std::pair<int, int> &old_position);
         
         bool _white_turn;
         char _chess_board[8][8];
+
+        std::unordered_map<char, int> _num_pieces;
 
         bool _can_white_big_castle;
         bool _can_white_small_castle;
@@ -87,6 +57,9 @@ class ChessBoard {
 
         int _num_moves;
         int _num_moves_since_last_capture;
+
+        bool _en_passant_enabled;
+        std::pair<int, int> _en_passant_square;
         
         long long _board_hash;
 };

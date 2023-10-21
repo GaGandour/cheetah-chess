@@ -60,6 +60,7 @@ class King : public ChessPiece {
         virtual std::vector<ChessMove> compute_possible_moves_disregarding_check(std::pair<int, int> &position, ChessBoard *chess_board);
     protected:
         virtual void _compute_and_push_castle_moves(std::pair<int, int> &position, ChessBoard *chess_board, std::vector<ChessMove> moves);
+        virtual void _validate_and_push_castle_move(ChessBoard *chess_board, std::vector<ChessMove> moves, bool is_big_castle);
 };
 
 class Queen : public ChessPiece {
