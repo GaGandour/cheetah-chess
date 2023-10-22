@@ -353,5 +353,25 @@ std::vector<ChessMove> Pawn::compute_possible_moves_disregarding_check(std::pair
         }
     }
 
-    //TODO: handle en passant
+    // handle en passant
+    if (chess_board->is_en_passant_enabled()) {
+        std::pair<int, int> en_passant_square = chess_board->get_en_passant_square();
+        if (
+            en_passant_square.first == position.first && 
+            std::abs(en_passant_square.second - position.second) == 1
+        ) {
+            moves.push_back(
+                ChessMove({
+                    .old_x = position.first, 
+                    .old_y = position.second, 
+                    .new_x = position.first + row_offset, 
+                    .new_y = en_passant_square.second,
+                    .is_white_moving = is_white(),
+                    .move_type = MoveType::EN_PASSANT,
+                    .moving_piece = _piece_code,
+                    .captured_piece = chess_board->piece_at(en_passant_square)
+                })
+            );
+        }
+    }
 }
