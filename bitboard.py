@@ -15,4 +15,13 @@ def print_bitboard_from_num(num):
         print("")
 
 
-print_bitboard_from_num(0xAA55AA55AA55AA55)
+def operation(num):
+    
+    return num ^63
+
+
+BITBOARD = 0x1E2222120E0A1222
+print("Original:")
+print_bitboard_from_num(BITBOARD)
+print("Operation:")
+print_bitboard_from_num(operation(BITBOARD))
